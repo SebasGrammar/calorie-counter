@@ -3,9 +3,6 @@ let display = document.querySelector(".display")
 let clear = document.querySelector(".clear")
 let searchButton = document.querySelector(".search")
 
-
-
-
 display.style.background = "blue"
 
 function clearAll() {
