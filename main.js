@@ -1,7 +1,18 @@
 let searchBox = document.querySelector("#search-food")
 let display = document.querySelector(".display")
+let clear = document.querySelector(".clear")
+let searchButton = document.querySelector(".search")
+
+
+
 
 display.style.background = "blue"
+
+function clearAll() {
+    display.innerHTML = ""
+}
+
+clear.addEventListener("click", clearAll)
 
 async function getData(input) {
     let response = await fetch("Food_Display_Table.csv")
@@ -9,44 +20,32 @@ async function getData(input) {
 
     let rows = data.split("\n")
 
-    //console.log(`This is the value: ${input, elements[1]}`)
-
     rows.forEach(element => {
-        //if (element) {
-        //console.log(element[1])
 
-        //console.log(element)
-        //console.log("it does")
+        let row = element.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
 
         if (element) {
 
-            let row = element.split(",")
             let name = row[1]
 
+            if (name.toLowerCase().includes(input)) {
 
-
-            if (name.includes(input)) {
                 let n = document.createElement("div")
+                console.log(name)
                 n.classList.add("result")
                 n.textContent = name
                 n.style.background = "red"
                 display.appendChild(n)
             }
 
-            //}
         }
-
-
-
 
     })
 
-
-    return "fucking shit"
 }
 
 //getData()
-searchBox.addEventListener("click", function () {
+searchButton.addEventListener("click", function () {
     if (searchBox.value) {
         console.log(getData(searchBox.value))
     }
