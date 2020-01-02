@@ -45,7 +45,7 @@ async function getData(input) {
 }
 
 //getData()
-searchButton.addEventListener("click", function () {
+searchBox.addEventListener("change", function () {
     if (searchBox.value) {
         console.log(getData(searchBox.value))
     }
