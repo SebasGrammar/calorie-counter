@@ -120,7 +120,7 @@ async function getData(input) {
                     if (quantity.textContent > 1) {
                         quantity.textContent = Number(quantity.textContent) - 1
                         portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
-                        calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) //* Number(quantity.textContent)
+                        calories.textContent = Number(calories.textContent) - Math.round(Number(row[24])) //* Number(quantity.textContent)
                     }
                 })
 
