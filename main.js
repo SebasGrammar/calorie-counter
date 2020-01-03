@@ -55,6 +55,8 @@ async function getData(input) {
 
     let rows = data.split("\n")
 
+    console.log(rows)
+
     rows.forEach(element => {
 
         let row = element.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
@@ -65,7 +67,7 @@ async function getData(input) {
 
             if (name.toLowerCase().includes(input)) {
 
-
+                console.log(row)
 
 
                 let foodName = document.createElement("div")
@@ -82,7 +84,11 @@ async function getData(input) {
 
 
                 let necessaryElements = ["buttons", "quantity", "portion-amount", "calories"]
-                let text = ["", row[2], `${row[3]} ${row[4]}`, row[24]]
+                //let text = ["", row[2], `${row[3].slice(0, 3)} ${row[4]}`, row[24]]
+
+                //let text = ["", row[2], `${row[3].slice(0, 3).replace("1.0", "1")} ${row[4]}`, row[24]]
+                let text = ["", row[2], `${Number(row[3])} ${row[4]}`, Number(row[24])]
+                
 
 
                 necessaryElements.forEach((thing, index) => {
