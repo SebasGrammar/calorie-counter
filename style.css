@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Rubik', sans-serif;
 }
 
 .display {
@@ -10,25 +13,50 @@
 }
 
 .result {
-    background: red;
+    background: ;
+    border-bottom: 1px solid #a8bac1;
+    padding: 10px;
 }
 
 .nutritional-info {
     display: none;
-    background: red;
-    
+    background: ;
+    border-bottom: 1px solid #a8bac1;
+}
+
+.nutritional-info {
+    margin: 0 0 5px 0;
 }
 
 .headings {
-    background: gray;
+    background: #a8bac1;
 }
 
 .row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     margin: ;
+    padding: 20px;
+}
+
+.buttons {
+    background: ;
 }
 
 button {
-    padding: 5px;
+    display: inline-block;
+    text-decoration: none;
+    background: #87befd;
+    color: #FFF;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    box-shadow: 0px 0px 0px 5px #87befd;
+    border: dashed 1px #FFF;
+    margin: 0 5px;
+    transition: .4s;
 }

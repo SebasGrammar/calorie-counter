@@ -53,7 +53,7 @@ function createElement(name, menu) {
     console.log(name)
     foodName.classList.add("result")
     foodName.textContent = name
-    foodName.style.background = "red"
+    //foodName.style.background = "red"
     foodName.addEventListener("click", deployMenu.bind(menu))
 
     return foodName 
@@ -117,7 +117,7 @@ async function getData(input) {
                 })
 
                 decreaseButton.addEventListener("click", function() {
-                    if (quantity.textContent > 1) {
+                    if (quantity.textContent > row[2]) {
                         quantity.textContent = Number(quantity.textContent) - 1
                         portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
                         calories.textContent = Number(calories.textContent) - Math.round(Number(row[24])) //* Number(quantity.textContent)
