@@ -56,7 +56,7 @@ function createElement(name, menu) {
     foodName.style.background = "red"
     foodName.addEventListener("click", deployMenu.bind(menu))
 
-    return 
+    return foodName 
     
 }
 
@@ -82,8 +82,8 @@ async function getData(input) {
             if (name.toLowerCase().includes(input)) {
 
                 let menu = createMenu()
-                display.appendChild( createElement(name, menu) )
                 
+        
                 /*
                 let necessaryElements = ["buttons", "quantity", "portion-amount", "calories"]
                 let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
@@ -117,7 +117,7 @@ async function getData(input) {
                     calories.textContent *= quantity
                 })
 
-                display.appendChild(menu)
+                display.appendChild( createElement(name, menu) )
                 
             }
 
