@@ -82,8 +82,7 @@ async function getData(input) {
             if (name.toLowerCase().includes(input)) {
 
                 let menu = createMenu()
-                
-        
+            
                 /*
                 let necessaryElements = ["buttons", "quantity", "portion-amount", "calories"]
                 let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
@@ -115,6 +114,14 @@ async function getData(input) {
                     quantity.textContent = Number(quantity.textContent) + 1
                     portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
                     calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) //* Number(quantity.textContent)
+                })
+
+                decreaseButton.addEventListener("click", function() {
+                    if (quantity.textContent > 1) {
+                        quantity.textContent = Number(quantity.textContent) - 1
+                        portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
+                        calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) //* Number(quantity.textContent)
+                    }
                 })
 
                 display.appendChild( createElement(name, menu) )
