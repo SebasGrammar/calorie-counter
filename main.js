@@ -31,8 +31,8 @@ function createMenu() {
     </div>
     <div class="row">
         <div class="buttons">
-            <button class="increase-button">-</button>
-            <button class="decrease-button">+</button>
+            <button class="decrease-button">-</button>
+            <button class="increase-button">+</button>
         </div>
         <div class="quantity"></div>
         <div class="portion-amount"></div>
@@ -112,12 +112,13 @@ async function getData(input) {
                 calories.textContent = Math.round(Number(row[24]))
 
                 increaseButton.addEventListener("click", function() {
-                    quantity.textContent += 1
-                    portionAmount.textContent *= quantity
-                    calories.textContent *= quantity
+                    quantity.textContent = Number(quantity.textContent) + 1
+                    portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
+                    calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) //* Number(quantity.textContent)
                 })
 
                 display.appendChild( createElement(name, menu) )
+                display.appendChild(menu)
                 
             }
 
