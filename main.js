@@ -3,7 +3,15 @@ let display = document.querySelector(".display")
 let clear = document.querySelector(".clear")
 let searchButton = document.querySelector(".search")
 
-display.style.background = "blue"
+
+
+/** OPEN AND CLOSE **/
+
+let choices = {
+    "none": "block",
+    "block": "none"
+}
+
 
 function clearAll() {
     display.innerHTML = ""
@@ -23,8 +31,8 @@ function createMenu() {
     </div>
     <div class="row">
         <div class="buttons">
-            <button>-</button>
-            <button>+</button>
+            <button class="increase-button">-</button>
+            <button class="decrease-button">+</button>
         </div>
         <div class="quantity"></div>
         <div class="portion-amount"></div>
@@ -36,16 +44,22 @@ function createMenu() {
 }
 
 function deployMenu() {
-
-    //this.style.display = "block"
-
-    if (this.style.display == "none") {
-        this.style.display = "block"
-    } else {
-        this.style.display = "none"
-    }
-
+    this.style.display = choices[getComputedStyle(this).getPropertyValue("display")]
 }
+
+function createElement(name, menu) {
+
+    let foodName = document.createElement("div")
+    console.log(name)
+    foodName.classList.add("result")
+    foodName.textContent = name
+    foodName.style.background = "red"
+    foodName.addEventListener("click", deployMenu.bind(menu))
+
+    return 
+    
+}
+
 
 clear.addEventListener("click", clearAll)
 
@@ -67,49 +81,44 @@ async function getData(input) {
 
             if (name.toLowerCase().includes(input)) {
 
-                console.log(row)
-
-
-                let foodName = document.createElement("div")
-                console.log(name)
-                foodName.classList.add("result")
-                foodName.textContent = name
-                foodName.style.background = "red"
-                display.appendChild(foodName)
-
-
-
                 let menu = createMenu()
-                foodName.addEventListener("click", deployMenu.bind(menu))
-
-
-                let necessaryElements = ["buttons", "quantity", "portion-amount", "calories"]
-                //let text = ["", row[2], `${row[3].slice(0, 3)} ${row[4]}`, row[24]]
-
-                //let text = ["", row[2], `${row[3].slice(0, 3).replace("1.0", "1")} ${row[4]}`, row[24]]
-                let text = ["", row[2], `${Number(row[3])} ${row[4]}`, Number(row[24])]
+                display.appendChild( createElement(name, menu) )
                 
-
-
-                necessaryElements.forEach((thing, index) => {
-                    if (index > 0) {
-                        let currentItem = menu.querySelector(`.${thing}`)
-                        currentItem.textContent = text[index]
-                        console.log(`this is the current item: ${currentItem.textContent}`)
-                    }
-                })
-
-
                 /*
-                for (let counter = 0; counter < necessaryElements.length; counter++) {
-                    let currentItem = menu.querySelector(necessaryElements[counter])
-                    console.log(`this is the current item: ${currentItem}`)
-                }
+                let necessaryElements = ["buttons", "quantity", "portion-amount", "calories"]
+                let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
+                necessaryElements.forEach((thing, index) => {
+                
+                    let currentItem = menu.querySelector(`.${thing}`)
+                    currentItem.textContent = text[index]
+                    console.log(`this is the current item: ${currentItem.textContent}`)
+            
+                })
                 */
 
+                /* BUTTONS */
+                let increaseButton = menu.querySelector(".increase-button");
+                let decreaseButton = menu.querySelector(".decrease-button");
+
+                /* QUANTITY */
+                let quantity = menu.querySelector(".quantity")
+                quantity.textContent = row[2]
+
+                /* PORTION AMOUNT */
+                let portionAmount = menu.querySelector(".portion-amount")
+                portionAmount.textContent = `${Number(row[3])} ${row[4]}`
+                /* CALORIES */
+                let calories = menu.querySelector(".calories")
+                calories.textContent = Math.round(Number(row[24]))
+
+                increaseButton.addEventListener("click", function() {
+                    quantity.textContent += 1
+                    portionAmount.textContent *= quantity
+                    calories.textContent *= quantity
+                })
 
                 display.appendChild(menu)
-                //display.appendChild( createMenu() )
+                
             }
 
         }
@@ -121,6 +130,6 @@ async function getData(input) {
 //getData()
 searchBox.addEventListener("change", function () {
     if (searchBox.value) {
-        console.log(getData(searchBox.value))
+        getData(searchBox.value)
     }
 })
