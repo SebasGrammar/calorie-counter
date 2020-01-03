@@ -18,6 +18,10 @@
     padding: 10px;
 }
 
+.result:hover {
+    background: #eff2f4;
+}
+
 .nutritional-info {
     display: none;
     background: ;
@@ -43,10 +47,10 @@
     background: ;
 }
 
-button {
+.buttons > button {
     display: inline-block;
     text-decoration: none;
-    background: #87befd;
+    background: #57c1bc;
     color: #FFF;
     width: 20px;
     height: 20px;
@@ -55,8 +59,8 @@ button {
     text-align: center;
     vertical-align: middle;
     overflow: hidden;
-    box-shadow: 0px 0px 0px 5px #87befd;
-    border: dashed 1px #FFF;
     margin: 0 5px;
-    transition: .4s;
+    font-size: 20px;
+    border-style: none;
+    
 }
