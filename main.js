@@ -3,8 +3,6 @@ let display = document.querySelector(".display")
 let clear = document.querySelector(".clear")
 let searchButton = document.querySelector(".search")
 
-
-
 /** OPEN AND CLOSE **/
 
 let choices = {
