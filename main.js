@@ -59,6 +59,20 @@ function createElement(name, menu) {
 }
 
 
+function increase(row, quantity, portionAmount, calories) {
+    quantity.textContent = Number(quantity.textContent) + 1
+    portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
+    calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) //* Number(quantity.textContent)
+}
+
+function decrease(row, quantity, portionAmount, calories) {
+    if (quantity.textContent > row[2]) {
+        quantity.textContent = Number(quantity.textContent) - 1
+        portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
+        calories.textContent = Number(calories.textContent) - Math.round(Number(row[24])) //* Number(quantity.textContent)
+    }
+}
+
 clear.addEventListener("click", clearAll)
 
 async function getData(input) {
@@ -93,6 +107,10 @@ async function getData(input) {
                 })
                 */
 
+                let necessaryElements = ["increase-button", "decrease-button", "quantity", "portion-amount", "calories"]
+                
+                
+
                 /* BUTTONS */
                 let increaseButton = menu.querySelector(".increase-button");
                 let decreaseButton = menu.querySelector(".decrease-button");
@@ -109,18 +127,11 @@ async function getData(input) {
                 calories.textContent = Math.round(Number(row[24]))
 
                 increaseButton.addEventListener("click", function() {
-                    quantity.textContent = Number(quantity.textContent) + 1
-                    portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
-                    calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) //* Number(quantity.textContent)
+                    increase(row, quantity, portionAmount, calories)
                 })
-
                 decreaseButton.addEventListener("click", function() {
-                    if (quantity.textContent > row[2]) {
-                        quantity.textContent = Number(quantity.textContent) - 1
-                        portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
-                        calories.textContent = Number(calories.textContent) - Math.round(Number(row[24])) //* Number(quantity.textContent)
-                    }
-                })
+                    decrease(quantity, portionAmount, calories)
+                })     
 
                 display.appendChild( createElement(name, menu) )
                 display.appendChild(menu)
