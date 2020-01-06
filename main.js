@@ -74,13 +74,25 @@ function decrease({ row, quantity, portionAmount, calories }) {
 
 clear.addEventListener("click", clearAll)
 
+/*
+
+function addEvent({increaseButton, decreaseButton}, f1, f2, obj) {
+    increaseButton.addEventListener("click", function() {
+        f1(obj)
+    })
+    decreaseButton.addEventListener("click", function() {
+        f2(obj)
+    })
+}
+
+*/
+
 async function getData(input) {
+
     let response = await fetch("Food_Display_Table.csv")
     let data = await response.text()
 
     let rows = data.split("\n")
-
-    console.log(rows)
 
     rows.forEach(element => {
 
@@ -93,63 +105,39 @@ async function getData(input) {
             if (name.toLowerCase().includes(input)) {
 
                 let menu = createMenu()
-
-                /*
-                let necessaryElements = ["buttons", "quantity", "portion-amount", "calories"]
-                let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
-                necessaryElements.forEach((thing, index) => {
-                
-                    let currentItem = menu.querySelector(`.${thing}`)
-                    currentItem.textContent = text[index]
-                    console.log(`this is the current item: ${currentItem.textContent}`)
-            
-                })
-                */
-
-                /*
-                let necessaryElements = ["increase-button", "decrease-button", "quantity", "portion-amount", "calories"]
-                */
-
-                let eventElements = ["increase-button", "decrease-button"]
                 let textElements = ["quantity", "portion-amount", "calories"]
                 let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
 
 
-
-                /* BUTTONS */
                 let increaseButton = menu.querySelector(".increase-button");
                 let decreaseButton = menu.querySelector(".decrease-button");
-
-                /* QUANTITY */
-                let quantity = menu.querySelector(".quantity")
-                //quantity.textContent = row[2]
-
-                /* PORTION AMOUNT */
-                let portionAmount = menu.querySelector(".portion-amount")
-                //portionAmount.textContent = `${Number(row[3])} ${row[4]}`
-                /* CALORIES */
-                let calories = menu.querySelector(".calories")
-                //calories.textContent = Math.round(Number(row[24]))
-
-                
-                let properties = { // If I change something here, I'll have to change it everywhere else in the document.
-                    row,
-                    quantity,
-                    portionAmount,
-                    calories
+                /*
+                let buttons = {
+                    increaseButton: menu.querySelector(".increase-button"),
+                    decreaseButton: menu.querySelector(".decrease-button")
                 }
-             
+                */
+
+                let properties = {
+                    row,
+                    quantity: menu.querySelector(".quantity"),
+                    portionAmount: menu.querySelector(".portion-amount"),
+                    calories: menu.querySelector(".calories")
+                }
+
                 textElements.forEach((el, index) => {
                     let currentElement = menu.querySelector(`.${el}`)
                     currentElement.textContent = text[index]
                 })
-
+                
                 increaseButton.addEventListener("click", function () {
                     increase(properties)
                 })
                 decreaseButton.addEventListener("click", function () {
                     decrease(properties)
                 })
+            
+                //addEvent(buttons, increase, decrease, properties)
 
                 display.appendChild(createElement(name, menu))
                 display.appendChild(menu)
@@ -162,9 +150,17 @@ async function getData(input) {
 
 }
 
-//getData()
+/*
 searchBox.addEventListener("change", function () {
     if (searchBox.value) {
+        getData(searchBox.value)
+    }
+})
+*/
+
+searchBox.addEventListener("keydown", function () {
+    if (searchBox.value) {
+        clearAll()
         getData(searchBox.value)
     }
 })
