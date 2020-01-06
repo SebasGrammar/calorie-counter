@@ -51,27 +51,26 @@ function createElement(name, menu) {
     console.log(name)
     foodName.classList.add("result")
     foodName.textContent = name
-    //foodName.style.background = "red"
     foodName.addEventListener("click", deployMenu.bind(menu))
 
-    return foodName 
-    
+    return foodName
+
 }
 
-
-function increase(row, quantity, portionAmount, calories) {
+function increase({ row, quantity, portionAmount, calories }) {
     quantity.textContent = Number(quantity.textContent) + 1
     portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
     calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) //* Number(quantity.textContent)
 }
 
-function decrease(row, quantity, portionAmount, calories) {
+function decrease({ row, quantity, portionAmount, calories }) {
     if (quantity.textContent > row[2]) {
         quantity.textContent = Number(quantity.textContent) - 1
         portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
         calories.textContent = Number(calories.textContent) - Math.round(Number(row[24])) //* Number(quantity.textContent)
     }
 }
+
 
 clear.addEventListener("click", clearAll)
 
@@ -94,7 +93,7 @@ async function getData(input) {
             if (name.toLowerCase().includes(input)) {
 
                 let menu = createMenu()
-            
+
                 /*
                 let necessaryElements = ["buttons", "quantity", "portion-amount", "calories"]
                 let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
@@ -107,9 +106,15 @@ async function getData(input) {
                 })
                 */
 
+                /*
                 let necessaryElements = ["increase-button", "decrease-button", "quantity", "portion-amount", "calories"]
-                
-                
+                */
+
+                let eventElements = ["increase-button", "decrease-button"]
+                let textElements = ["quantity", "portion-amount", "calories"]
+                let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
+
+
 
                 /* BUTTONS */
                 let increaseButton = menu.querySelector(".increase-button");
@@ -117,25 +122,38 @@ async function getData(input) {
 
                 /* QUANTITY */
                 let quantity = menu.querySelector(".quantity")
-                quantity.textContent = row[2]
+                //quantity.textContent = row[2]
 
                 /* PORTION AMOUNT */
                 let portionAmount = menu.querySelector(".portion-amount")
-                portionAmount.textContent = `${Number(row[3])} ${row[4]}`
+                //portionAmount.textContent = `${Number(row[3])} ${row[4]}`
                 /* CALORIES */
                 let calories = menu.querySelector(".calories")
-                calories.textContent = Math.round(Number(row[24]))
+                //calories.textContent = Math.round(Number(row[24]))
 
-                increaseButton.addEventListener("click", function() {
-                    increase(row, quantity, portionAmount, calories)
-                })
-                decreaseButton.addEventListener("click", function() {
-                    decrease(quantity, portionAmount, calories)
-                })     
-
-                display.appendChild( createElement(name, menu) )
-                display.appendChild(menu)
                 
+                let properties = { // If I change something here, I'll have to change it everywhere else in the document.
+                    row,
+                    quantity,
+                    portionAmount,
+                    calories
+                }
+             
+                textElements.forEach((el, index) => {
+                    let currentElement = menu.querySelector(`.${el}`)
+                    currentElement.textContent = text[index]
+                })
+
+                increaseButton.addEventListener("click", function () {
+                    increase(properties)
+                })
+                decreaseButton.addEventListener("click", function () {
+                    decrease(properties)
+                })
+
+                display.appendChild(createElement(name, menu))
+                display.appendChild(menu)
+
             }
 
         }
