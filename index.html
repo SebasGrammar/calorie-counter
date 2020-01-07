@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,38 +8,24 @@
     <title>Calorie Counter</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
-    
-    <!-- <div class="nutritional-info">
-        <div class="headings row">
-            <label></label>
-            <label>Quantity</label>
-            <label>Portion amount</label>
-            
-            <label>Calories</label>
+    <div class="app">
+
+        <h1 class="title">Calorie Counter</h1>
+
+        <div class="search-div">
+            <input type="text" class="search-box" id="search-food" placeholder="e.g., meat or cereals"></input>
+            <button type="submit" class="search search-box">Search
+            </button>
+            <button class="clear">Clear</button>
         </div>
-        <div class="row">
-            <div class="buttons">
-                <button>-</button>
-                <button>+</button>
-            </div>
-
-            <div>1</div>
-            
-            <div>1 cup</div>
-            <div>200kcal</div>
-        </div>
-    </div> -->
 
 
-    <label for="search-food">Search food</label>
-    <input class="search-box" id="search-food" placeholder="e.g., meat or cereals"></input>
 
-    <button class="search">Search</button>
-    <button class="clear">Clear</button>
-
-    <div class="display"></div>
-
+        <div class="display"></div>
+    </div>
     <script src="main.js"></script>
 </body>
+
 </html>

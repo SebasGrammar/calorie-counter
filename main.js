@@ -10,7 +10,6 @@ let choices = {
     "block": "none"
 }
 
-
 function clearAll() {
     display.innerHTML = ""
 }
@@ -74,24 +73,24 @@ function decrease({ row, quantity, portionAmount, calories }) {
 
 clear.addEventListener("click", clearAll)
 
-/*
-
-function addEvent({increaseButton, decreaseButton}, f1, f2, obj) {
-    increaseButton.addEventListener("click", function() {
-        f1(obj)
-    })
-    decreaseButton.addEventListener("click", function() {
-        f2(obj)
-    })
+function replaceMeasurement(input) {
+    if (input.includes(".25")) {
+        return "1/4"
+    } else if (input.includes(".50")) {
+        return "1/2"
+    } else if (input.includes(".75")) {
+        return "3/4"
+    } else if (input.includes("1")) {
+        return "1"
+    } else {
+        return Number(input)
+    }
 }
-
-*/
 
 async function getData(input) {
 
     let response = await fetch("Food_Display_Table.csv")
     let data = await response.text()
-
     let rows = data.split("\n")
 
     rows.forEach(element => {
@@ -105,18 +104,21 @@ async function getData(input) {
             if (name.toLowerCase().includes(input)) {
 
                 let menu = createMenu()
-                let textElements = ["quantity", "portion-amount", "calories"]
-                let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
+                //let textElements = ["quantity", "portion-amount", "calories"]
+                //let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
+                //let text = [row[2], `${replaceMeasurement(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
 
+
+                let tex = {
+                    quantity: row[2],
+                    portionAmount: `${Number(row[3])} ${row[4]}`,
+                    calories: Math.round(Number(row[24]))
+                }
+
+ 
 
                 let increaseButton = menu.querySelector(".increase-button");
                 let decreaseButton = menu.querySelector(".decrease-button");
-                /*
-                let buttons = {
-                    increaseButton: menu.querySelector(".increase-button"),
-                    decreaseButton: menu.querySelector(".decrease-button")
-                }
-                */
 
                 let properties = {
                     row,
@@ -124,12 +126,19 @@ async function getData(input) {
                     portionAmount: menu.querySelector(".portion-amount"),
                     calories: menu.querySelector(".calories")
                 }
+                
+                Object.keys(tex).forEach(key => {
+                    properties[key].textContent = tex[key]
+                })
+                
+
+                /*
 
                 textElements.forEach((el, index) => {
                     let currentElement = menu.querySelector(`.${el}`)
                     currentElement.textContent = text[index]
                 })
-                
+                */
                 increaseButton.addEventListener("click", function () {
                     increase(properties)
                 })
@@ -137,8 +146,6 @@ async function getData(input) {
                     decrease(properties)
                 })
             
-                //addEvent(buttons, increase, decrease, properties)
-
                 display.appendChild(createElement(name, menu))
                 display.appendChild(menu)
 
