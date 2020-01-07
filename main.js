@@ -40,6 +40,10 @@ function createMenu() {
 
 }
 
+let selectedElements = {
+
+};
+
 function deployMenu() {
     this.style.display = choices[getComputedStyle(this).getPropertyValue("display")]
 }
@@ -50,6 +54,9 @@ function createElement(name, menu) {
     console.log(name)
     foodName.classList.add("result")
     foodName.textContent = name
+    foodName.addEventListener("click", function() {
+        this.classList.toggle("selected")
+    })
     foodName.addEventListener("click", deployMenu.bind(menu))
 
     return foodName
@@ -87,6 +94,8 @@ function replaceMeasurement(input) {
     }
 }
 
+
+
 async function getData(input) {
 
     let response = await fetch("Food_Display_Table.csv")
@@ -104,18 +113,12 @@ async function getData(input) {
             if (name.toLowerCase().includes(input)) {
 
                 let menu = createMenu()
-                //let textElements = ["quantity", "portion-amount", "calories"]
-                //let text = [row[2], `${Number(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
-                //let text = [row[2], `${replaceMeasurement(row[3])} ${row[4]}`, Math.round(Number(row[24]))]
-
 
                 let tex = {
                     quantity: row[2],
                     portionAmount: `${Number(row[3])} ${row[4]}`,
                     calories: Math.round(Number(row[24]))
                 }
-
- 
 
                 let increaseButton = menu.querySelector(".increase-button");
                 let decreaseButton = menu.querySelector(".decrease-button");
@@ -130,15 +133,7 @@ async function getData(input) {
                 Object.keys(tex).forEach(key => {
                     properties[key].textContent = tex[key]
                 })
-                
 
-                /*
-
-                textElements.forEach((el, index) => {
-                    let currentElement = menu.querySelector(`.${el}`)
-                    currentElement.textContent = text[index]
-                })
-                */
                 increaseButton.addEventListener("click", function () {
                     increase(properties)
                 })

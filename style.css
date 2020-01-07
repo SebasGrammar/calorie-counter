@@ -65,6 +65,10 @@ body, html {
     background: #eff2f4;
 }
 
+.selected {
+    background: #57c1bc;
+}
+
 .nutritional-info {
     display: none;
     background: ;
