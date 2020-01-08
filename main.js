@@ -32,9 +32,9 @@ function createGoal() {
 //     calorieCounter.appendChild(element)
 // }
 
-function createAddition({calories}) {
+function createAddition({calories, name}) {
     let element = document.createElement("div")
-    element.textContent = calories.textContent
+    element.textContent = calories.textContent + name
     calorieCounter.appendChild(element)
 }
 
@@ -164,6 +164,7 @@ async function getData(input) {
 
                 let properties = {
                     row,
+                    name,
                     quantity: menu.querySelector(".quantity"),
                     portionAmount: menu.querySelector(".portion-amount"),
                     calories: menu.querySelector(".calories")
