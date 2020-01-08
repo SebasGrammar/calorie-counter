@@ -23,9 +23,18 @@ function createGoal() {
 
 }
 
-function createAddition(text) {
+// CTRL + K + C -> comment out code
+// CTRL + K + U -> uncomment code
+
+// function createAddition(text) {
+//     let element = document.createElement("div")
+//     element.textContent = text
+//     calorieCounter.appendChild(element)
+// }
+
+function createAddition({calories}) {
     let element = document.createElement("div")
-    element.textContent = text
+    element.textContent = calories.textContent
     calorieCounter.appendChild(element)
 }
 
@@ -161,7 +170,10 @@ async function getData(input) {
                 }
 
                 addButton.addEventListener("click", function() {
-                    createAddition(properties.calories.textContent)
+                    //createAddition(properties.calories.textContent)
+                    createAddition(properties)
+                    /****/
+                    yourGoal.textContent = Number(yourGoal.textContent) - Number(properties.calories.textContent) 
                 })
                 
                 Object.keys(tex).forEach(key => {
