@@ -3,12 +3,33 @@ let display = document.querySelector(".display")
 let clear = document.querySelector(".clear")
 let searchButton = document.querySelector(".search")
 
+let calorieCounter = document.querySelector(".calorie-counter")
+let calorieGoal = document.querySelector(".calorie-goal")
+let submitGoal = document.querySelector(".submit")
+let yourGoal = document.querySelector(".your-goal")
+
 /** OPEN AND CLOSE **/
 
 let choices = {
     "none": "block",
     "block": "none"
 }
+
+function createGoal() {
+    //let goal = document.createElement("div")
+    yourGoal.textContent = calorieGoal.value
+
+    //calorieCounter.appendChild(goal)
+
+}
+
+function createAddition(text) {
+    let element = document.createElement("div")
+    element.textContent = text
+    calorieCounter.appendChild(element)
+}
+
+submitGoal.addEventListener("click", createGoal)
 
 function clearAll() {
     display.innerHTML = ""
@@ -25,6 +46,7 @@ function createMenu() {
         <label>Quantity</label>
         <label>Portion amount</label>    
         <label>Calories</label>
+        <div></div>
     </div>
     <div class="row">
         <div class="buttons">
@@ -34,6 +56,7 @@ function createMenu() {
         <div class="quantity"></div>
         <div class="portion-amount"></div>
         <div class="calories"></div>
+        <button class="add-calories">Add</button>
     </div>
     `
     return menu
@@ -122,6 +145,13 @@ async function getData(input) {
 
                 let increaseButton = menu.querySelector(".increase-button");
                 let decreaseButton = menu.querySelector(".decrease-button");
+  
+
+                
+
+                let addButton = menu.querySelector(".add-calories")
+
+        
 
                 let properties = {
                     row,
@@ -129,6 +159,10 @@ async function getData(input) {
                     portionAmount: menu.querySelector(".portion-amount"),
                     calories: menu.querySelector(".calories")
                 }
+
+                addButton.addEventListener("click", function() {
+                    createAddition(properties.calories.textContent)
+                })
                 
                 Object.keys(tex).forEach(key => {
                     properties[key].textContent = tex[key]

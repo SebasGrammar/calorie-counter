@@ -52,6 +52,7 @@ body, html {
 /* BODY */
 
 .display {
+    min-width: 50%;
 
 }
 
@@ -81,7 +82,7 @@ body, html {
 
 .row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr) 50px;
     margin: ;
     padding: 20px;
 }
@@ -105,3 +106,20 @@ body, html {
 
 /****************/
 
+.container {
+    width: 100%;
+    background: ;
+    display: flex;
+}
+
+.calorie-counter {
+    border-left: 1px solid #a8bac1;
+    min-width: 50%;
+    padding: 10px;
+}
+
+/*** your goal ***/
+
+.your-goal {
+    border-bottom: 1px solid gray;
+}
