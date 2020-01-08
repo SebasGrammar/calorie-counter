@@ -32,10 +32,41 @@ function createGoal() {
 //     calorieCounter.appendChild(element)
 // }
 
-function createAddition({calories, name}) {
+
+// function createAddition({calories, name, quantity}) {
+//     let element = document.createElement("div")
+//     let span = document.createElement("p")
+
+//     span.textContent = `${quantity.textContent}x ${name}`
+
+//     element.textContent = calories.textContent //+ name
+
+//     element.appendChild(span)
+//     calorieCounter.appendChild(element)
+
+// }
+
+
+let keys = {
+
+}
+
+function createAddition({calories, name, quantity}) {
     let element = document.createElement("div")
-    element.textContent = calories.textContent + name
-    calorieCounter.appendChild(element)
+    let span = document.createElement("p")
+
+    span.textContent = `${quantity.textContent}x ${name}`
+
+    element.textContent = calories.textContent //+ name
+
+
+    if (!keys.hasOwnProperty(element)) {
+        keys[element] = 1
+        element.appendChild(span)
+        calorieCounter.appendChild(element)
+        console.log(keys)
+    }
+
 }
 
 submitGoal.addEventListener("click", createGoal)
@@ -83,7 +114,7 @@ function deployMenu() {
 function createElement(name, menu) {
 
     let foodName = document.createElement("div")
-    console.log(name)
+    //console.log(name)
     foodName.classList.add("result")
     foodName.textContent = name
     foodName.addEventListener("click", function() {
