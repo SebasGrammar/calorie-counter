@@ -10,6 +10,12 @@ let yourGoal = document.querySelector(".your-goal")
 
 /** OPEN AND CLOSE **/
 
+let test = {
+    "hello world 8 and me": 2
+}
+
+console.log(test["hello world 8 and me"])
+
 let choices = {
     "none": "block",
     "block": "none"
@@ -51,7 +57,7 @@ let keys = {
 
 }
 
-function createAddition({calories, name, quantity}) {
+function createAddition({calories, name, quantity, code, id}) {
     let element = document.createElement("div")
     let span = document.createElement("p")
 
@@ -60,12 +66,40 @@ function createAddition({calories, name, quantity}) {
     element.textContent = calories.textContent //+ name
 
 
-    if (!keys.hasOwnProperty(element)) {
-        keys[element] = 1
+    element.setAttribute("data-id", code)
+
+    
+
+
+    // if (!calorieCounter.contains(element)) {
+    //     console.log(element)
+    //     element.appendChild(span)
+    //     calorieCounter.appendChild(element)
+    // } 
+
+    if (!keys[`${code} ${id}`]) {
+        console.log(`${code} ${id}`)
+        console.log(keys)
+        //keys[code][id] = true
+        keys[`${code} ${id}`] = true
+        console.log(element)
         element.appendChild(span)
         calorieCounter.appendChild(element)
-        console.log(keys)
+    } else {
+        console.log(code)
     }
+
+
+
+    // if (!keys.hasOwnProperty(element)) {
+    //     console.log(keys)
+    //     keys[element] = 1
+    //     element.appendChild(span)
+    //     calorieCounter.appendChild(element)
+    //     console.log(keys)
+    // }
+
+
 
 }
 
@@ -196,6 +230,8 @@ async function getData(input) {
                 let properties = {
                     row,
                     name,
+                    code: row[0],
+                    id: `${Number(row[3])} ${row[4]}`,
                     quantity: menu.querySelector(".quantity"),
                     portionAmount: menu.querySelector(".portion-amount"),
                     calories: menu.querySelector(".calories")
