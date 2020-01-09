@@ -53,21 +53,26 @@ let keys = {
 
 function createAddition({calories, name, quantity, code, id}) {
     let element = document.createElement("div")
+
+    let caloricContent = document.createElement("p")
+    caloricContent.classList.add("caloric-content")
     let span = document.createElement("p")
 
+    caloricContent.textContent = calories.textContent
     span.textContent = `${quantity.textContent}x ${name}`
-    element.textContent = calories.textContent //+ name
+    //element.textContent = calories.textContent //+ name
 
     //element.setAttribute("data-id", code)
     
-    
-        keys[`${code} ${id}`] = element
+
+        element.appendChild(caloricContent)
         element.appendChild(span)
+        keys[`${code} ${id}`] = element
 
         yourGoal.textContent = Number(yourGoal.textContent) - Number(calories.textContent) 
         
         //calorieCounter.appendChild(element)
-        return element
+        //return element
 
         
     
@@ -212,7 +217,18 @@ async function getData(input) {
                     //createAddition(properties.calories.textContent)
 
                     if (!keys[`${properties.code} ${properties.id}`]) {
-                        calorieCounter.appendChild( createAddition(properties) )
+                        //calorieCounter.appendChild( createAddition(properties) )
+                        createAddition(properties)
+                        calorieCounter.appendChild ( keys[`${properties.code} ${properties.id}`] )
+                    } else {
+                        //calorieCounter
+                        //let temporal = keys[`${properties.code} ${properties.id}`].querySelector("span")
+                        console.log(keys[`${properties.code} ${properties.id}`])
+                        let CC = keys[`${properties.code} ${properties.id}`].querySelector(".caloric-content")
+                        CC.textContent = properties.calories.textContent
+                        //keys[`${properties.code} ${properties.id}`].textContent = properties.calories.textContent
+                        //console.log(temporal)
+                        //temporal.textContent = `${properties.quantity.textContent}x ${properties.name}`
                     }
                     /****/
                     //yourGoal.textContent = Number(yourGoal.textContent) - Number(properties.calories.textContent) 
