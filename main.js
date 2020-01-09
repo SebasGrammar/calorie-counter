@@ -16,10 +16,7 @@ let choices = {
 }
 
 function createGoal() {
-    //let goal = document.createElement("div")
     yourGoal.textContent = calorieGoal.value
-
-    //calorieCounter.appendChild(goal)
 
 }
 
@@ -29,27 +26,6 @@ function createGoal() {
 let keys = {
 
 }
-
-// function createAddition({calories, name, quantity, code, id}) {
-//     let element = document.createElement("div")
-//     let span = document.createElement("p")
-
-//     span.textContent = `${quantity.textContent}x ${name}`
-//     element.textContent = calories.textContent //+ name
-
-//     //element.setAttribute("data-id", code)
-    
-//     if (!keys[`${code} ${id}`]) {
-//         keys[`${code} ${id}`] = element
-//         element.appendChild(span)
-//         calorieCounter.appendChild(element)
-
-//         yourGoal.textContent = Number(yourGoal.textContent) - Number(calories.textContent) 
-//     } else {
-//         console.log(code)
-//     }
-
-// }
 
 function createAddition({calories, name, quantity, code, id}) {
     let element = document.createElement("div")
@@ -221,14 +197,11 @@ async function getData(input) {
                         createAddition(properties)
                         calorieCounter.appendChild ( keys[`${properties.code} ${properties.id}`] )
                     } else {
-                        //calorieCounter
-                        //let temporal = keys[`${properties.code} ${properties.id}`].querySelector("span")
+
                         console.log(keys[`${properties.code} ${properties.id}`])
                         let CC = keys[`${properties.code} ${properties.id}`].querySelector(".caloric-content")
                         CC.textContent = properties.calories.textContent
-                        //keys[`${properties.code} ${properties.id}`].textContent = properties.calories.textContent
-                        //console.log(temporal)
-                        //temporal.textContent = `${properties.quantity.textContent}x ${properties.name}`
+
                     }
                     /****/
                     //yourGoal.textContent = Number(yourGoal.textContent) - Number(properties.calories.textContent) 
