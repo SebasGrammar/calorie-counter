@@ -10,12 +10,6 @@ let yourGoal = document.querySelector(".your-goal")
 
 /** OPEN AND CLOSE **/
 
-let test = {
-    "hello world 8 and me": 2
-}
-
-console.log(test["hello world 8 and me"])
-
 let choices = {
     "none": "block",
     "block": "none"
@@ -32,74 +26,51 @@ function createGoal() {
 // CTRL + K + C -> comment out code
 // CTRL + K + U -> uncomment code
 
-// function createAddition(text) {
-//     let element = document.createElement("div")
-//     element.textContent = text
-//     calorieCounter.appendChild(element)
-// }
+let keys = {
 
+}
 
-// function createAddition({calories, name, quantity}) {
+// function createAddition({calories, name, quantity, code, id}) {
 //     let element = document.createElement("div")
 //     let span = document.createElement("p")
 
 //     span.textContent = `${quantity.textContent}x ${name}`
-
 //     element.textContent = calories.textContent //+ name
 
-//     element.appendChild(span)
-//     calorieCounter.appendChild(element)
+//     //element.setAttribute("data-id", code)
+    
+//     if (!keys[`${code} ${id}`]) {
+//         keys[`${code} ${id}`] = element
+//         element.appendChild(span)
+//         calorieCounter.appendChild(element)
+
+//         yourGoal.textContent = Number(yourGoal.textContent) - Number(calories.textContent) 
+//     } else {
+//         console.log(code)
+//     }
 
 // }
-
-
-let keys = {
-
-}
 
 function createAddition({calories, name, quantity, code, id}) {
     let element = document.createElement("div")
     let span = document.createElement("p")
 
     span.textContent = `${quantity.textContent}x ${name}`
-
     element.textContent = calories.textContent //+ name
 
-
-    element.setAttribute("data-id", code)
-
+    //element.setAttribute("data-id", code)
     
-
-
-    // if (!calorieCounter.contains(element)) {
-    //     console.log(element)
-    //     element.appendChild(span)
-    //     calorieCounter.appendChild(element)
-    // } 
-
-    if (!keys[`${code} ${id}`]) {
-        console.log(`${code} ${id}`)
-        console.log(keys)
-        //keys[code][id] = true
-        keys[`${code} ${id}`] = true
-        console.log(element)
+    
+        keys[`${code} ${id}`] = element
         element.appendChild(span)
-        calorieCounter.appendChild(element)
-    } else {
-        console.log(code)
-    }
 
+        yourGoal.textContent = Number(yourGoal.textContent) - Number(calories.textContent) 
+        
+        //calorieCounter.appendChild(element)
+        return element
 
-
-    // if (!keys.hasOwnProperty(element)) {
-    //     console.log(keys)
-    //     keys[element] = 1
-    //     element.appendChild(span)
-    //     calorieCounter.appendChild(element)
-    //     console.log(keys)
-    // }
-
-
+        
+    
 
 }
 
@@ -239,9 +210,12 @@ async function getData(input) {
 
                 addButton.addEventListener("click", function() {
                     //createAddition(properties.calories.textContent)
-                    createAddition(properties)
+
+                    if (!keys[`${properties.code} ${properties.id}`]) {
+                        calorieCounter.appendChild( createAddition(properties) )
+                    }
                     /****/
-                    yourGoal.textContent = Number(yourGoal.textContent) - Number(properties.calories.textContent) 
+                    //yourGoal.textContent = Number(yourGoal.textContent) - Number(properties.calories.textContent) 
                 })
                 
                 Object.keys(tex).forEach(key => {
