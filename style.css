@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 :root {
     --height: 30px;
-    --background: #57c1bc;
+    --background: #006EBB;
 }
 
 * {
@@ -17,7 +17,7 @@ body, html {
 
 .app {
     background: ;
-    border: 4px solid #57c1bc;
+    border: 4px solid var(--background);
     /*height: 100%;*/
     min-height: 100vh;
 }
@@ -26,7 +26,7 @@ body, html {
     padding: 10px;
     text-align: center;
     color: white;
-    background: #57c1bc;
+    background: var(--background);
 }
 
 /* SEARCH BAR */
@@ -67,7 +67,7 @@ body, html {
 }
 
 .selected {
-    background: #57c1bc;
+    background: var(--background);
 }
 
 .nutritional-info {
@@ -90,7 +90,7 @@ body, html {
 .buttons>button {
     display: inline-block;
     text-decoration: none;
-    background: #57c1bc;
+    background: var(--background);
     color: #FFF;
     width: 20px;
     height: 20px;
@@ -112,7 +112,7 @@ body, html {
     display: flex;
 }
 
-.calorie-counter {
+.calorie-section {
     border-left: 1px solid #a8bac1;
     min-width: 50%;
     padding: 10px;
@@ -127,9 +127,43 @@ body, html {
 /**/
 
 .food-element {
-
+    position: relative;
+    background: var(--background);
+    color: #FFF;
+    margin-bottom: 2px;
+    padding: 5px;
 }
 
 .close-icon {
-    width: 15px;
-}
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+    opacity: 0.3;
+    background: ;
+  }
+  
+  .close-icon:hover {
+    opacity: 1;
+  }
+
+  .close-icon:before, .close-icon:after {
+    position: absolute;
+    right: 10px;
+    content: "";
+    height: 15px;
+    width: 2px;
+    background: #FFF;
+
+  }
+
+  .close-icon:before {
+    transform: rotate(45deg);
+  }
+
+  .close-icon:after {
+    transform: rotate(-45deg);
+  }
+  
