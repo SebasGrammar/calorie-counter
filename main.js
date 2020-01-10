@@ -106,7 +106,7 @@ function createMenu() {
         <div class="quantity"></div>
         <div class="portion-amount"></div>
         <div class="calories"></div>
-        <button class="add-calories">Add</button>
+        <button class="add-calories functional-button">Add</button>
     </div>
     `
     return menu
