@@ -22,13 +22,9 @@ function createGoal() {
     chosenCalories = calorieGoal.value
 }
 
-// CTRL + K + C -> comment out code
-// CTRL + K + U -> uncomment code
-
 let keys = {
 
 }
-
 
 function removeElement(element, code) {
 
@@ -43,23 +39,16 @@ function createAddition({ calories, name, quantity, code, id }) {
     element.classList.add("food-element")
     keys[`${code} ${id}`] = element
 
-    let closeIcon = document.createElement("img")
-    closeIcon.setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1024px-Grey_close_x.svg.png")
+    let closeIcon = document.createElement("a")
     closeIcon.classList.add("close-icon")
-    //closeIcon.addEventListener("click", removeElement)
     closeIcon.addEventListener("click", function () {
         removeElement.bind(this)(keys, `${code} ${id}`)
-
-
-
         yourGoal.textContent = chosenCalories
-        for (let element in keys) {
 
+        for (let element in keys) {
             let amount = keys[element].querySelector(".caloric-content").textContent
             yourGoal.textContent = Number(yourGoal.textContent) - Number(amount)
         }
-
-
     })
 
     let caloricContent = document.createElement("p")
@@ -82,7 +71,18 @@ function createAddition({ calories, name, quantity, code, id }) {
 submitGoal.addEventListener("click", createGoal)
 
 function clearAll() {
+
     display.innerHTML = ""
+    calorieCounter.innerHTML = ""
+
+    yourGoal.textContent = chosenCalories
+
+
+    for (let property in keys){
+        if (keys.hasOwnProperty(property)){
+            delete keys[property];
+        }
+    }
 }
 
 function createMenu() {
@@ -167,7 +167,7 @@ function replaceMeasurement(input) {
 
 async function getData(input) {
 
-    let response = await fetch("Food_Display_special_characters.txt")
+    let response = await fetch("Table with special characters.txt")
     let data = await response.text()
     let rows = data.split("\n")
 
