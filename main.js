@@ -47,32 +47,19 @@ function createAddition({ calories, name, quantity, code, id }) {
     closeIcon.setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1024px-Grey_close_x.svg.png")
     closeIcon.classList.add("close-icon")
     //closeIcon.addEventListener("click", removeElement)
-    closeIcon.addEventListener("click", function() {
+    closeIcon.addEventListener("click", function () {
         removeElement.bind(this)(keys, `${code} ${id}`)
 
-        //yourGoal.textContent = chosenCalories
 
-        if (Object.keys(keys).length) {
 
-            yourGoal.textContent = chosenCalories
-            for (let element in keys) {
-                                
-                let amount = keys[element].querySelector(".caloric-content").textContent
-                yourGoal.textContent = Number(yourGoal.textContent) - Number(amount)
-            }
+        yourGoal.textContent = chosenCalories
+        for (let element in keys) {
 
-        } else {
-            yourGoal.textContent = chosenCalories
+            let amount = keys[element].querySelector(".caloric-content").textContent
+            yourGoal.textContent = Number(yourGoal.textContent) - Number(amount)
         }
 
-        // for (let element in keys) {
-        //     console.log(element)
-        //     console.log(keys[element])
-        //     let amount = keys[element].querySelector(".caloric-content").textContent
-        //     yourGoal.textContent = Number(yourGoal.textContent) - Number(amount)
-        // }
 
-        //console.log(keys)
     })
 
     let caloricContent = document.createElement("p")
@@ -84,12 +71,12 @@ function createAddition({ calories, name, quantity, code, id }) {
     caloricContent.textContent = calories.textContent
     span.textContent = `${quantity.textContent}x ${name}`
 
-     // This is going to create a unique property that will allow me to
+    // This is going to create a unique property that will allow me to
     // identify the element being created when calling this function.
     element.appendChild(caloricContent)
     element.appendChild(span)
     element.appendChild(closeIcon)
-    
+
 }
 
 submitGoal.addEventListener("click", createGoal)
@@ -150,15 +137,15 @@ function createElement(name, menu) {
 
 function increase({ row, quantity, portionAmount, calories }) {
     quantity.textContent = Number(quantity.textContent) + 1
-    portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` 
-    calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) 
+    portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}`
+    calories.textContent = Number(calories.textContent) + Math.round(Number(row[24]))
 }
 
 function decrease({ row, quantity, portionAmount, calories }) {
     if (quantity.textContent > row[2]) {
         quantity.textContent = Number(quantity.textContent) - 1
         portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}`
-        calories.textContent = Number(calories.textContent) - Math.round(Number(row[24])) 
+        calories.textContent = Number(calories.textContent) - Math.round(Number(row[24]))
     }
 }
 
@@ -217,15 +204,15 @@ async function getData(input) {
                 }
 
                 addButton.addEventListener("click", function () {
- 
+
                     if (!keys[`${properties.code} ${properties.id}`]) {
                         createAddition(properties)
                         yourGoal.textContent = Number(yourGoal.textContent) - Number(properties.calories.textContent)
                         calorieCounter.appendChild(keys[`${properties.code} ${properties.id}`])
-                        
+
                     } else {
 
-                        
+
                         let foodCalories = keys[`${properties.code} ${properties.id}`].querySelector(".caloric-content")
                         let amount = keys[`${properties.code} ${properties.id}`].querySelector(".amount")
                         foodCalories.textContent = properties.calories.textContent
@@ -234,7 +221,7 @@ async function getData(input) {
                         /*****/
                         yourGoal.textContent = chosenCalories
                         for (let element in keys) {
-                            
+
                             let amount = keys[element].querySelector(".caloric-content").textContent
                             yourGoal.textContent = Number(yourGoal.textContent) - Number(amount)
                         }
