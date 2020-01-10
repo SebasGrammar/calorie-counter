@@ -167,7 +167,7 @@ function replaceMeasurement(input) {
 
 async function getData(input) {
 
-    let response = await fetch("Food_Display_Table.csv")
+    let response = await fetch("Table with special characters.txt")
     let data = await response.text()
     let rows = data.split("\n")
 
