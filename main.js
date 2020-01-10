@@ -40,7 +40,6 @@ function createAddition({ calories, name, quantity, code, id }) {
     keys[`${code} ${id}`] = element
 
     let closeIcon = document.createElement("a")
-    //closeIcon.setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1024px-Grey_close_x.svg.png")
     closeIcon.classList.add("close-icon")
     closeIcon.addEventListener("click", function () {
         removeElement.bind(this)(keys, `${code} ${id}`)
