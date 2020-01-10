@@ -20,7 +20,6 @@ let chosenCalories;
 function createGoal() {
     yourGoal.textContent = calorieGoal.value
     chosenCalories = calorieGoal.value
-
 }
 
 // CTRL + K + C -> comment out code
@@ -30,33 +29,67 @@ let keys = {
 
 }
 
-function createAddition({calories, name, quantity, code, id}) {
+
+function removeElement(element, code) {
+
+    this.parentElement.remove()
+    delete element[code]
+
+}
+
+function createAddition({ calories, name, quantity, code, id }) {
+
     let element = document.createElement("div")
+    element.classList.add("food-element")
+    keys[`${code} ${id}`] = element
+
+    let closeIcon = document.createElement("img")
+    closeIcon.setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1024px-Grey_close_x.svg.png")
+    closeIcon.classList.add("close-icon")
+    //closeIcon.addEventListener("click", removeElement)
+    closeIcon.addEventListener("click", function() {
+        removeElement.bind(this)(keys, `${code} ${id}`)
+
+        //yourGoal.textContent = chosenCalories
+
+        if (Object.keys(keys).length) {
+
+            yourGoal.textContent = chosenCalories
+            for (let element in keys) {
+                                
+                let amount = keys[element].querySelector(".caloric-content").textContent
+                yourGoal.textContent = Number(yourGoal.textContent) - Number(amount)
+            }
+
+        } else {
+            yourGoal.textContent = chosenCalories
+        }
+
+        // for (let element in keys) {
+        //     console.log(element)
+        //     console.log(keys[element])
+        //     let amount = keys[element].querySelector(".caloric-content").textContent
+        //     yourGoal.textContent = Number(yourGoal.textContent) - Number(amount)
+        // }
+
+        //console.log(keys)
+    })
 
     let caloricContent = document.createElement("p")
     caloricContent.classList.add("caloric-content")
+
     let span = document.createElement("p")
     span.classList.add("amount")
 
     caloricContent.textContent = calories.textContent
     span.textContent = `${quantity.textContent}x ${name}`
-    //element.textContent = calories.textContent //+ name
 
-    //element.setAttribute("data-id", code)
+     // This is going to create a unique property that will allow me to
+    // identify the element being created when calling this function.
+    element.appendChild(caloricContent)
+    element.appendChild(span)
+    element.appendChild(closeIcon)
     
-
-        element.appendChild(caloricContent)
-        element.appendChild(span)
-        keys[`${code} ${id}`] = element
-
-        //yourGoal.textContent = Number(yourGoal.textContent) - Number(calories.textContent) 
-        
-        //calorieCounter.appendChild(element)
-        //return element
-
-        
-    
-
 }
 
 submitGoal.addEventListener("click", createGoal)
@@ -104,10 +137,9 @@ function deployMenu() {
 function createElement(name, menu) {
 
     let foodName = document.createElement("div")
-    //console.log(name)
     foodName.classList.add("result")
     foodName.textContent = name
-    foodName.addEventListener("click", function() {
+    foodName.addEventListener("click", function () {
         this.classList.toggle("selected")
     })
     foodName.addEventListener("click", deployMenu.bind(menu))
@@ -118,18 +150,17 @@ function createElement(name, menu) {
 
 function increase({ row, quantity, portionAmount, calories }) {
     quantity.textContent = Number(quantity.textContent) + 1
-    portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
-    calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) //* Number(quantity.textContent)
+    portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` 
+    calories.textContent = Number(calories.textContent) + Math.round(Number(row[24])) 
 }
 
 function decrease({ row, quantity, portionAmount, calories }) {
     if (quantity.textContent > row[2]) {
         quantity.textContent = Number(quantity.textContent) - 1
-        portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}` //Number(portionAmount.textContent) * Number(quantity.textContent)
-        calories.textContent = Number(calories.textContent) - Math.round(Number(row[24])) //* Number(quantity.textContent)
+        portionAmount.textContent = `${Number(row[3]) * Number(quantity.textContent)} ${row[4]}`
+        calories.textContent = Number(calories.textContent) - Math.round(Number(row[24])) 
     }
 }
-
 
 clear.addEventListener("click", clearAll)
 
@@ -146,8 +177,6 @@ function replaceMeasurement(input) {
         return Number(input)
     }
 }
-
-
 
 async function getData(input) {
 
@@ -167,7 +196,7 @@ async function getData(input) {
 
                 let menu = createMenu()
 
-                let tex = {
+                let contentValues = {
                     quantity: row[2],
                     portionAmount: `${Number(row[3])} ${row[4]}`,
                     calories: Math.round(Number(row[24]))
@@ -175,13 +204,7 @@ async function getData(input) {
 
                 let increaseButton = menu.querySelector(".increase-button");
                 let decreaseButton = menu.querySelector(".decrease-button");
-  
-
-                
-
                 let addButton = menu.querySelector(".add-calories")
-
-        
 
                 let properties = {
                     row,
@@ -193,38 +216,34 @@ async function getData(input) {
                     calories: menu.querySelector(".calories")
                 }
 
-                addButton.addEventListener("click", function() {
-                    //createAddition(properties.calories.textContent)
-
+                addButton.addEventListener("click", function () {
+ 
                     if (!keys[`${properties.code} ${properties.id}`]) {
-                        //calorieCounter.appendChild( createAddition(properties) )
                         createAddition(properties)
-                        calorieCounter.appendChild ( keys[`${properties.code} ${properties.id}`] )
-
                         yourGoal.textContent = Number(yourGoal.textContent) - Number(properties.calories.textContent)
+                        calorieCounter.appendChild(keys[`${properties.code} ${properties.id}`])
+                        
                     } else {
 
-                        console.log(keys[`${properties.code} ${properties.id}`])
-                        let CC = keys[`${properties.code} ${properties.id}`].querySelector(".caloric-content")
+                        
+                        let foodCalories = keys[`${properties.code} ${properties.id}`].querySelector(".caloric-content")
                         let amount = keys[`${properties.code} ${properties.id}`].querySelector(".amount")
-                        CC.textContent = properties.calories.textContent
+                        foodCalories.textContent = properties.calories.textContent
                         amount.textContent = `${properties.quantity.textContent}x ${properties.name}`
 
                         /*****/
                         yourGoal.textContent = chosenCalories
                         for (let element in keys) {
-                            //console.log(element)
+                            
                             let amount = keys[element].querySelector(".caloric-content").textContent
                             yourGoal.textContent = Number(yourGoal.textContent) - Number(amount)
                         }
 
                     }
-                    /****/
-                    //yourGoal.textContent = Number(yourGoal.textContent) - Number(properties.calories.textContent) 
                 })
-                
-                Object.keys(tex).forEach(key => {
-                    properties[key].textContent = tex[key]
+
+                Object.keys(contentValues).forEach(key => {
+                    properties[key].textContent = contentValues[key]
                 })
 
                 increaseButton.addEventListener("click", function () {
@@ -233,7 +252,7 @@ async function getData(input) {
                 decreaseButton.addEventListener("click", function () {
                     decrease(properties)
                 })
-            
+
                 display.appendChild(createElement(name, menu))
                 display.appendChild(menu)
 
