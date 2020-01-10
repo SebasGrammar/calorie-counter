@@ -85,6 +85,10 @@ function clearAll() {
     }
 }
 
+function clearSearch() {
+    display.innerHTML = ""
+}
+
 function createMenu() {
 
     let menu = document.createElement("div")
@@ -261,7 +265,8 @@ searchBox.addEventListener("change", function () {
 
 searchBox.addEventListener("keydown", function () {
     if (searchBox.value) {
-        clearAll()
+        //clearAll()
+        clearSearch()
         getData(searchBox.value)
     }
 })
