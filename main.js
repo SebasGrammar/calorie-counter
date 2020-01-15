@@ -8,6 +8,106 @@ let calorieGoal = document.querySelector(".calorie-goal")
 let submitGoal = document.querySelector(".submit")
 let yourGoal = document.querySelector(".your-goal")
 
+
+/****/
+
+
+let dimensions = 5
+//let size = "150px";
+
+// SVG.setAttribute("height", dimensions)
+// SVG.setAttribute("width", dimensions)
+
+
+//SVG.style.setProperty("width", size)
+//SVG.style.setProperty("height", size)
+
+const pieWidth = 20;
+const pieHeight = 20;
+
+//SVG.setAttribute("viewBox", `0 0 ${pieWidth} ${pieHeight}`)
+
+const cx = pieWidth / 2
+const cy = pieHeight / 2
+
+// backgroundCircle.setAttribute("r", pieWidth / 2)
+// backgroundCircle.setAttribute("cx", cx)
+// backgroundCircle.setAttribute("cy", cy)
+
+// const radio = backgroundCircle.r.baseVal.value // Reference circle's radio value.
+
+// const sliceRadio = radio / 2 // radio for each slice
+
+const circumference = 2 * Math.PI * 5
+
+//let data = [234, 324, 884, 22, 134]
+let data = [];
+
+
+//let value = data.reduce((total, currentValue) => total + currentValue) // TOTAL, addition of all numbers
+//let percentages = data.map(number => number * circumference / value)
+
+let colors = ["#5f6caf", "#edf7fa", "#ffb677", "#ff8364", "#df8543"]
+
+// let attributes = {
+//     r: sliceRadio,
+//     cx: cx,
+//     cy: cy,
+//     fill: "transparent",
+//     "stroke-width": radio,  
+// }
+
+let attributes = {
+    r: 5,
+    cx: cx,
+    cy: cy,
+    fill: "transparent",
+    "stroke-width": 10,  
+}
+
+function setDashArray(percentage) {
+    return `${percentage} ${circumference}`
+}
+
+function setColor(index) {
+    return colors[index]
+}
+
+let degrees = -90;
+
+function generateChart(data, container) {
+
+    //data.length = 0
+
+    // for (let square of squares) {
+    //     //console.log(square.value)
+    //     data.push(Number(square.value))
+    // }
+
+    //console.log(data)
+
+    let value = data.reduce((total, currentValue) => total + currentValue) // TOTAL, addition of all numbers
+    console.log(`This is the value: ${value}`)
+    let percentages = data.map(number => number * circumference / value)
+
+    percentages.forEach((percentage, index) => {
+
+        const slice = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        Object.keys(attributes).forEach(attribute => slice.setAttribute(attribute, attributes[attribute]))
+        slice.style.setProperty("transform-origin", "50%")
+        slice.style.setProperty("transform", `rotate(${-data[index] / value * 360 + degrees}deg)`)
+        degrees -= data[index] / value * 360
+        slice.setAttribute("stroke-dasharray", setDashArray(percentage))
+        //slice.setAttribute("stroke", setColor(index))
+        slice.setAttribute("stroke", colors[index])
+        container.appendChild(slice)
+
+        console.log(value, percentages)
+    
+    })
+}
+
+
 /** OPEN AND CLOSE **/
 
 let choices = {
@@ -33,7 +133,9 @@ function removeElement(element, code) {
 
 }
 
-function createAddition({ calories, name, quantity, code, id }) {
+let nutritionalInfo = []
+
+function createAddition({ calories, name, quantity, code, id, info }) {
 
     let element = document.createElement("div")
     element.classList.add("food-element")
@@ -65,6 +167,24 @@ function createAddition({ calories, name, quantity, code, id }) {
     element.appendChild(caloricContent)
     element.appendChild(span)
     element.appendChild(closeIcon)
+
+    let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+    svg.classList.add("pie-chart")
+    svg.setAttribute("viewBox", `0 0 ${pieWidth} ${pieHeight}`)
+
+    let backgroundCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+    backgroundCircle.classList.add("background-circle")
+    backgroundCircle.setAttribute("r", pieWidth / 2)
+    backgroundCircle.setAttribute("cx", cx)
+    backgroundCircle.setAttribute("cy", cy)
+
+    svg.appendChild(backgroundCircle)
+    element.appendChild(svg)
+
+    console.log(info)
+
+    generateChart(info, svg)
+    //generateChart([2, 5], svg)
 
 }
 
@@ -200,12 +320,17 @@ async function getData(input) {
                 let properties = {
                     row,
                     name,
+                    info: [Number(row[21]), Number(row[22]), Number(row[23]), Number(row[25])],
                     code: row[0],
                     id: `${Number(row[3])} ${row[4]}`,
                     quantity: menu.querySelector(".quantity"),
                     portionAmount: menu.querySelector(".portion-amount"),
                     calories: menu.querySelector(".calories")
                 }
+
+                nutritionalInfo = [row[8], row[9]]
+
+                //console.log(nutritionalInfo)
 
                 addButton.addEventListener("click", function () {
 
