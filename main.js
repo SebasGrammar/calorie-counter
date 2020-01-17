@@ -11,6 +11,22 @@ let yourGoal = document.querySelector(".your-goal")
 
 /****/
 
+/*
+
+Some bugs still persist. 
+1. When a goal has been set and at least 1 "addition" has been added, the "calorie goal" won't update
+if it is changed. Say, if I set a goal of 2500 calories, then add a food item with 100 calories and subsequently change the
+2500 (now 2400) value to 3000, the value being displayed won't be 2900, but 3000... despite there being at least
+one food in the list.
+
+2. The nutrition facts inside the "addition" element don't update if the amount is increased or decreased.
+
+3. I searched for banana, then set the amount to 22 and when I tried to decrease it, it got stuck at number 19. 
+Wouldn't get below 19. 
+
+*/
+
+/*********/
 
 let dimensions = 5
 
