@@ -47,7 +47,9 @@ let data = [];
 //let value = data.reduce((total, currentValue) => total + currentValue) // TOTAL, addition of all numbers
 //let percentages = data.map(number => number * circumference / value)
 
-let colors = ["#5f6caf", "#edf7fa", "#ffb677", "#ff8364", "#df8543"]
+// let colors = ["#5f6caf", "#edf7fa", "#ffb677", "#ff8364", "#df8543"]
+let colors = ["#FF6B35", "#F8FFE5", "red", "#6A4C93", "white"]
+
 
 // let attributes = {
 //     r: sliceRadio,
@@ -77,17 +79,8 @@ let degrees = -90;
 
 function generateChart(data, container) {
 
-    //data.length = 0
-
-    // for (let square of squares) {
-    //     //console.log(square.value)
-    //     data.push(Number(square.value))
-    // }
-
-    //console.log(data)
-
     let value = data.reduce((total, currentValue) => total + currentValue) // TOTAL, addition of all numbers
-    console.log(`This is the value: ${value}`)
+    //console.log(`This is the value: ${value}`)
     let percentages = data.map(number => number * circumference / value)
 
     percentages.forEach((percentage, index) => {
@@ -102,7 +95,15 @@ function generateChart(data, container) {
         slice.setAttribute("stroke", colors[index])
         container.appendChild(slice)
 
-        console.log(value, percentages)
+        let overlap = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+        overlap.classList.add("top")
+        overlap.setAttribute("fill", "#0270C1")
+        overlap.setAttribute("r", 5)
+        overlap.setAttribute("cx", attributes.cx)
+        overlap.setAttribute("cy", attributes.cy)
+        container.appendChild(overlap)
+
+        //console.log(value, percentages)
     
     })
 }
@@ -153,13 +154,13 @@ function createAddition({ calories, name, quantity, code, id, info }) {
         }
     })
 
-    let caloricContent = document.createElement("p")
+    let caloricContent = document.createElement("h4")
     caloricContent.classList.add("caloric-content")
 
     let span = document.createElement("p")
     span.classList.add("amount")
 
-    caloricContent.textContent = calories.textContent
+    caloricContent.textContent = `${calories.textContent} calories`
     span.textContent = `${quantity.textContent}x ${name}`
 
     // This is going to create a unique property that will allow me to
@@ -167,6 +168,19 @@ function createAddition({ calories, name, quantity, code, id, info }) {
     element.appendChild(caloricContent)
     element.appendChild(span)
     element.appendChild(closeIcon)
+
+    // console.log(info[21])
+    // console.log(info)
+
+    let solidFats = info[0]
+    let addedSugar = info[1]
+    let saturatedFats = info[3]
+
+    let facts = document.createElement("p")
+    facts.classList.add("facts")
+    facts.textContent = `Solid fats: ${Math.round(solidFats)}gr - Added sugar: ${Math.round(addedSugar)}gr - Saturated fats: ${Math.round(saturatedFats)}gr`
+    element.appendChild(facts)
+    
 
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
     svg.classList.add("pie-chart")
@@ -180,8 +194,6 @@ function createAddition({ calories, name, quantity, code, id, info }) {
 
     svg.appendChild(backgroundCircle)
     element.appendChild(svg)
-
-    console.log(info)
 
     generateChart(info, svg)
     //generateChart([2, 5], svg)
@@ -331,6 +343,7 @@ async function getData(input) {
                 nutritionalInfo = [row[8], row[9]]
 
                 //console.log(nutritionalInfo)
+                //console.log(properties.info)
 
                 addButton.addEventListener("click", function () {
 
