@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Assistant&display=swap');
+
 :root {
     --height: 25px;
-    --background: #006EBB;
+    --background: #0270C1;
 }
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Assistant', sans-serif;
 }
 
 body, html {
@@ -53,7 +54,7 @@ body, html {
 /* BODY */
 
 .display {
-    min-width: 50%;
+    min-width: 60%;
 
 }
 
@@ -65,10 +66,12 @@ body, html {
 
 .result:hover {
     background: #eff2f4;
+    color: #000;
 }
 
 .selected {
     background: var(--background);
+    color: #FFF;
 }
 
 .nutritional-info {
@@ -78,7 +81,8 @@ body, html {
 }
 
 .headings {
-    background: #a8bac1;
+    background: ;
+    border-bottom: 1px solid #a8bac1;
 }
 
 .row {
@@ -125,12 +129,15 @@ body, html {
     border-left: 1px solid #a8bac1;
     min-width: 40%;
     padding: 10px;
+    background: ;
 }
+
+
 
 /*** your goal ***/
 
 .your-goal {
-    border-bottom: 1px solid gray;
+    border-bottom: ;
 }
 
 /**/
@@ -141,6 +148,12 @@ body, html {
     color: #FFF;
     margin-bottom: 2px;
     padding: 5px;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: ;
+
 }
 
 .close-icon {
@@ -176,3 +189,24 @@ body, html {
     transform: rotate(-45deg);
   }
   
+  svg {
+      width: 50px;
+      height: 50px;
+  }
+
+  .pie-chart {
+      width: 30px;
+  }
+
+  .amount {
+      font-size: 17px;
+  }
+
+  .facts {
+      font-size: 14px;
+  }
+
+  .seeing {
+      background: ;
+      width: 80%;
+  }

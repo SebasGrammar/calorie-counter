@@ -8,6 +8,83 @@ let calorieGoal = document.querySelector(".calorie-goal")
 let submitGoal = document.querySelector(".submit")
 let yourGoal = document.querySelector(".your-goal")
 
+
+/****/
+
+
+let dimensions = 5
+
+const pieWidth = 20;
+const pieHeight = 20;
+
+const cx = pieWidth / 2
+const cy = pieHeight / 2
+
+
+const circumference = 2 * Math.PI * dimensions
+
+
+let data = [];
+
+
+let colors = ["#FF6B35", "#F8FFE5", "red", "#6A4C93", "white"]
+
+
+// let attributes = {
+//     r: sliceRadio,
+//     cx: cx,
+//     cy: cy,
+//     fill: "transparent",
+//     "stroke-width": radio,  
+// }
+
+let attributes = {
+    r: 5,
+    cx: cx,
+    cy: cy,
+    fill: "transparent",
+    "stroke-width": 10,  
+}
+
+function setDashArray(percentage) {
+    return `${percentage} ${circumference}`
+}
+
+function setColor(index) {
+    return colors[index]
+}
+
+let degrees = -90;
+
+function generateChart(data, container) {
+
+    let value = data.reduce((total, currentValue) => total + currentValue)
+    let percentages = data.map(number => number * circumference / value)
+
+    percentages.forEach((percentage, index) => {
+
+        const slice = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        Object.keys(attributes).forEach(attribute => slice.setAttribute(attribute, attributes[attribute]))
+        slice.style.setProperty("transform-origin", "50%")
+        slice.style.setProperty("transform", `rotate(${-data[index] / value * 360 + degrees}deg)`)
+        degrees -= data[index] / value * 360
+        slice.setAttribute("stroke-dasharray", setDashArray(percentage))
+        //slice.setAttribute("stroke", setColor(index))
+        slice.setAttribute("stroke", colors[index])
+        container.appendChild(slice)
+
+        let overlap = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+        overlap.classList.add("top")
+        overlap.setAttribute("fill", "#0270C1")
+        overlap.setAttribute("r", 7)
+        overlap.setAttribute("cx", attributes.cx)
+        overlap.setAttribute("cy", attributes.cy)
+        container.appendChild(overlap)
+    
+    })
+}
+
+
 /** OPEN AND CLOSE **/
 
 let choices = {
@@ -33,11 +110,16 @@ function removeElement(element, code) {
 
 }
 
-function createAddition({ calories, name, quantity, code, id }) {
+let nutritionalInfo = []
+
+function createAddition({ calories, name, quantity, code, id, info }) {
 
     let element = document.createElement("div")
     element.classList.add("food-element")
     keys[`${code} ${id}`] = element
+
+    let textualInfo = document.createElement("div")
+    textualInfo.classList.add("seeing")
 
     let closeIcon = document.createElement("a")
     closeIcon.classList.add("close-icon")
@@ -51,24 +133,54 @@ function createAddition({ calories, name, quantity, code, id }) {
         }
     })
 
-    let caloricContent = document.createElement("p")
+    let caloricContent = document.createElement("h4")
     caloricContent.classList.add("caloric-content")
 
     let span = document.createElement("p")
     span.classList.add("amount")
 
-    caloricContent.textContent = calories.textContent
+    caloricContent.textContent = `${calories.textContent} calories`
     span.textContent = `${quantity.textContent}x ${name}`
 
     // This is going to create a unique property that will allow me to
     // identify the element being created when calling this function.
-    element.appendChild(caloricContent)
-    element.appendChild(span)
+
+    textualInfo.appendChild(caloricContent)
+    textualInfo.appendChild(span)
+    element.appendChild(textualInfo)
     element.appendChild(closeIcon)
+
+    let solidFats = info[0]
+    let addedSugar = info[1]
+    let saturatedFats = info[3]
+
+    let facts = document.createElement("p")
+    facts.classList.add("facts")
+    facts.textContent = `Solid fats: ${Math.round(solidFats)}gr - Added sugar: ${Math.round(addedSugar)}gr - Saturated fats: ${Math.round(saturatedFats)}gr`
+    textualInfo.appendChild(facts)
+    
+
+    let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+    svg.classList.add("pie-chart")
+    svg.setAttribute("viewBox", `0 0 ${pieWidth} ${pieHeight}`)
+
+    let backgroundCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+    backgroundCircle.classList.add("background-circle")
+    backgroundCircle.setAttribute("r", pieWidth / 2)
+    backgroundCircle.setAttribute("cx", cx)
+    backgroundCircle.setAttribute("cy", cy)
+
+    svg.appendChild(backgroundCircle)
+    element.appendChild(svg)
+
+    generateChart(info, svg)
 
 }
 
+/* THIS */
 submitGoal.addEventListener("click", createGoal)
+
+//calorieGoal.addEventListener("input", createGoal)
 
 function clearAll() {
 
@@ -83,6 +195,10 @@ function clearAll() {
             delete keys[property];
         }
     }
+}
+
+function clearSearch() {
+    display.innerHTML = ""
 }
 
 function createMenu() {
@@ -106,7 +222,7 @@ function createMenu() {
         <div class="quantity"></div>
         <div class="portion-amount"></div>
         <div class="calories"></div>
-        <button class="add-calories">Add</button>
+        <button class="add-calories functional-button">Add</button>
     </div>
     `
     return menu
@@ -196,12 +312,17 @@ async function getData(input) {
                 let properties = {
                     row,
                     name,
+                    info: [Number(row[21]), Number(row[22]), Number(row[23]), Number(row[25])],
                     code: row[0],
                     id: `${Number(row[3])} ${row[4]}`,
                     quantity: menu.querySelector(".quantity"),
                     portionAmount: menu.querySelector(".portion-amount"),
                     calories: menu.querySelector(".calories")
                 }
+
+                nutritionalInfo = [row[8], row[9]]
+
+
 
                 addButton.addEventListener("click", function () {
 
@@ -261,7 +382,8 @@ searchBox.addEventListener("change", function () {
 
 searchBox.addEventListener("keydown", function () {
     if (searchBox.value) {
-        clearAll()
+        //clearAll()
+        clearSearch()
         getData(searchBox.value)
     }
 })
