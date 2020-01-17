@@ -13,41 +13,20 @@ let yourGoal = document.querySelector(".your-goal")
 
 
 let dimensions = 5
-//let size = "150px";
-
-// SVG.setAttribute("height", dimensions)
-// SVG.setAttribute("width", dimensions)
-
-
-//SVG.style.setProperty("width", size)
-//SVG.style.setProperty("height", size)
 
 const pieWidth = 20;
 const pieHeight = 20;
 
-//SVG.setAttribute("viewBox", `0 0 ${pieWidth} ${pieHeight}`)
-
 const cx = pieWidth / 2
 const cy = pieHeight / 2
 
-// backgroundCircle.setAttribute("r", pieWidth / 2)
-// backgroundCircle.setAttribute("cx", cx)
-// backgroundCircle.setAttribute("cy", cy)
 
-// const radio = backgroundCircle.r.baseVal.value // Reference circle's radio value.
+const circumference = 2 * Math.PI * dimensions
 
-// const sliceRadio = radio / 2 // radio for each slice
 
-const circumference = 2 * Math.PI * 5
-
-//let data = [234, 324, 884, 22, 134]
 let data = [];
 
 
-//let value = data.reduce((total, currentValue) => total + currentValue) // TOTAL, addition of all numbers
-//let percentages = data.map(number => number * circumference / value)
-
-// let colors = ["#5f6caf", "#edf7fa", "#ffb677", "#ff8364", "#df8543"]
 let colors = ["#FF6B35", "#F8FFE5", "red", "#6A4C93", "white"]
 
 
@@ -79,8 +58,7 @@ let degrees = -90;
 
 function generateChart(data, container) {
 
-    let value = data.reduce((total, currentValue) => total + currentValue) // TOTAL, addition of all numbers
-    //console.log(`This is the value: ${value}`)
+    let value = data.reduce((total, currentValue) => total + currentValue)
     let percentages = data.map(number => number * circumference / value)
 
     percentages.forEach((percentage, index) => {
@@ -98,12 +76,10 @@ function generateChart(data, container) {
         let overlap = document.createElementNS("http://www.w3.org/2000/svg", "circle")
         overlap.classList.add("top")
         overlap.setAttribute("fill", "#0270C1")
-        overlap.setAttribute("r", 5)
+        overlap.setAttribute("r", 7)
         overlap.setAttribute("cx", attributes.cx)
         overlap.setAttribute("cy", attributes.cy)
         container.appendChild(overlap)
-
-        //console.log(value, percentages)
     
     })
 }
@@ -142,6 +118,9 @@ function createAddition({ calories, name, quantity, code, id, info }) {
     element.classList.add("food-element")
     keys[`${code} ${id}`] = element
 
+    let textualInfo = document.createElement("div")
+    textualInfo.classList.add("seeing")
+
     let closeIcon = document.createElement("a")
     closeIcon.classList.add("close-icon")
     closeIcon.addEventListener("click", function () {
@@ -165,12 +144,11 @@ function createAddition({ calories, name, quantity, code, id, info }) {
 
     // This is going to create a unique property that will allow me to
     // identify the element being created when calling this function.
-    element.appendChild(caloricContent)
-    element.appendChild(span)
-    element.appendChild(closeIcon)
 
-    // console.log(info[21])
-    // console.log(info)
+    textualInfo.appendChild(caloricContent)
+    textualInfo.appendChild(span)
+    element.appendChild(textualInfo)
+    element.appendChild(closeIcon)
 
     let solidFats = info[0]
     let addedSugar = info[1]
@@ -179,7 +157,7 @@ function createAddition({ calories, name, quantity, code, id, info }) {
     let facts = document.createElement("p")
     facts.classList.add("facts")
     facts.textContent = `Solid fats: ${Math.round(solidFats)}gr - Added sugar: ${Math.round(addedSugar)}gr - Saturated fats: ${Math.round(saturatedFats)}gr`
-    element.appendChild(facts)
+    textualInfo.appendChild(facts)
     
 
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
@@ -196,11 +174,13 @@ function createAddition({ calories, name, quantity, code, id, info }) {
     element.appendChild(svg)
 
     generateChart(info, svg)
-    //generateChart([2, 5], svg)
 
 }
 
+/* THIS */
 submitGoal.addEventListener("click", createGoal)
+
+//calorieGoal.addEventListener("input", createGoal)
 
 function clearAll() {
 
@@ -342,8 +322,7 @@ async function getData(input) {
 
                 nutritionalInfo = [row[8], row[9]]
 
-                //console.log(nutritionalInfo)
-                //console.log(properties.info)
+
 
                 addButton.addEventListener("click", function () {
 

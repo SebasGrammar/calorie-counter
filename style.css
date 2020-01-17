@@ -150,7 +150,9 @@ body, html {
     padding: 5px;
     border-radius: 5px;
 
-    display: grid;
+    display: flex;
+    align-items: center;
+    justify-content: ;
 
 }
 
@@ -202,4 +204,9 @@ body, html {
 
   .facts {
       font-size: 14px;
+  }
+
+  .seeing {
+      background: ;
+      width: 80%;
   }
